@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { createAccount } from '@/lib/actions/user.actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -44,12 +45,18 @@ const AuthForm = ({ type }: { type: FormType }) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setErrorMessage('');
 
     try {
-    } catch (error) {
+      const user = await createAccount({
+        fullName: values.fullName || '',
+        email: values.email,
+      });
+
+      setAccountId(user.accountId);
+    } catch {
       setErrorMessage('Failed to create account. Please try again.');
     } finally {
       setIsLoading(false);
