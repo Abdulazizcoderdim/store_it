@@ -17,7 +17,13 @@ import {
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-const OTPModal = () => {
+const OTPModal = ({
+  email,
+  accountId,
+}: {
+  accountId: string;
+  email: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,8 +60,7 @@ const OTPModal = () => {
             />
           </AlertDialogTitle>
           <AlertDialogDescription className="subtitle-2 text-center text-light-100 ">
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            We've sent a code <span>{email}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
