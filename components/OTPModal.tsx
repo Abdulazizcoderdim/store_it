@@ -1,3 +1,5 @@
+'use client';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +14,9 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { verifySecret } from '@/lib/actions/user.actions';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 
@@ -26,12 +30,19 @@ const OTPModal = ({
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      const sessionId = await verifySecret({
+        accountId,
+        password,
+      });
+
+      if (sessionId) router.push('/');
     } catch (error) {
       console.log('Failed to verify OTP', error);
     } finally {
