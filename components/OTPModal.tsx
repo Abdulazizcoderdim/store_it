@@ -95,7 +95,7 @@ const OTPModal = ({
               type="button"
             >
               Submit
-              {!isLoading && (
+              {isLoading && (
                 <Image
                   src={'/assets/icons/loader.svg'}
                   alt="loader"
